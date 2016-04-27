@@ -1,0 +1,21 @@
+﻿@model KKGGames_Labb2.Models.TicTacToeModel
+@{
+    ViewBag.Title = "Tic Tac Toe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Tic Tac Toe</h2>
+
+@for (int y = 0; y < Model.CellBoard.Length; y++)
+{
+    <div>
+        @for (int x = 0; x < Model.CellBoard[y].Length; x++)
+        {
+            using (Html.BeginForm("Index", "TicTacToe", FormMethod.Post, new { style = "display : inline-block;" }))
+            {
+                <input type="hidden" name="chosenCell" value="@x,@y"/>
+                <input type="submit" value="@Model.CellBoard[x][y]" />
+            }
+        }
+    </div>
+}
