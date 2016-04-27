@@ -1,0 +1,24 @@
+﻿@model KKGGames_Labb2.Models.Game21Model
+@{
+    ViewBag.Title = "Game 21";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Game 21</h2>
+
+@if (ViewBag.Result != null)
+{
+    <p>@ViewBag.Result</p>
+}
+
+@using (Html.BeginForm("Index", "Game21", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.CurrentValue);
+    @Html.DisplayTextFor(m => m.CurrentValue);
+    <br />
+    <label for="numberOne">1</label>
+    @Html.RadioButtonFor(m => m.ChoosenNumber, "1", new { id = "numberOne" })
+    <label for="numberTwo">2</label>
+    @Html.RadioButtonFor(m => m.ChoosenNumber, "2", new { id = "numberTwo" })
+    <input type="submit" value="Send" />
+}
