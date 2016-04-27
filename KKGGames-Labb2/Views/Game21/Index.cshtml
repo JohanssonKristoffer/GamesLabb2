@@ -11,14 +11,18 @@
     <p>@ViewBag.Result</p>
 }
 
-@using (Html.BeginForm("Index", "Game21", FormMethod.Post))
+@if (!Model.IsDone)
 {
-    @Html.HiddenFor(m => m.CurrentValue);
-    @Html.DisplayTextFor(m => m.CurrentValue);
-    <br />
-    <label for="numberOne">1</label>
-    @Html.RadioButtonFor(m => m.ChoosenNumber, "1", new { id = "numberOne" })
-    <label for="numberTwo">2</label>
-    @Html.RadioButtonFor(m => m.ChoosenNumber, "2", new { id = "numberTwo" })
-    <input type="submit" value="Send" />
+    using (Html.BeginForm("Index", "Game21", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.CurrentValue);
+        @Html.DisplayTextFor(m => m.CurrentValue);
+        <br />
+        <label for="numberOne">1</label>
+        @Html.RadioButtonFor(m => m.ChoosenNumber, "1", new { id = "numberOne" })
+        <label for="numberTwo">2</label>
+        @Html.RadioButtonFor(m => m.ChoosenNumber, "2", new { id = "numberTwo" })
+        <input type="submit" value="Send" />
+    }
 }
+
