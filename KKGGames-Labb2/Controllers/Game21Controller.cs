@@ -19,8 +19,7 @@ namespace KKGGames_Labb2.Controllers
         [HttpPost]
         public ActionResult Index(Game21Model model)
         {
-            if (model.IsDone())
-                ViewBag.Result = "You Win!";
+            ViewBag.Result = model.GetResult();
             ModelState.Remove("CurrentValue");
             return View(model);
         }
