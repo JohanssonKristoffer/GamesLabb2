@@ -6,6 +6,7 @@ using System.Web.Caching;
 using System.Web.Mvc;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using KKGGames_Labb2.Controllers;
 
 namespace KKGGames_Labb2.Models
 {
@@ -13,6 +14,27 @@ namespace KKGGames_Labb2.Models
     {
         public int CurrentValue { get; set; }
         public int ChoosenNumber { get; set; }
+        public int Counter { get; set; } = 10;
+
+        public  void UserStarter()
+        {
+            Random counter = new Random();
+            int Counter = counter.Next(0, 2);
+
+            // fixa counter så att den plussas varje gång
+        }
+
+        //public void TakeTurn()
+        //{
+        //    if (Counter % 2 == 0)
+        //    {
+        //        //players turn
+        //    }
+        //    else
+        //    {
+        //        CurrentValue++;
+        //    }
+        //}
 
         public Game21Model()
         {
@@ -22,6 +44,7 @@ namespace KKGGames_Labb2.Models
         public GameState GetGameStatus()
         {
             CurrentValue += ChoosenNumber;
+            Counter++;
             if (CurrentValue == 21)
                 return GameState.Win;
             if (CurrentValue > 21)
