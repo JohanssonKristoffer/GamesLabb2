@@ -24,8 +24,20 @@ namespace KKGGames_Labb2.Controllers
 
             model.ParseChosenCell(chosenCell);
             if (model.TryPlaceChosenCell())
-                model.ComputerTurn();
+            {
+                if (model.IsGameComplete)
+                {
+                    Session["CellBoard"] = null;
+                    return View("Win");
+                }
 
+                model.ComputerTurn();
+                if (model.IsGameComplete)
+                {
+                    Session["CellBoard"] = null;
+                    return View("Lose");
+                }
+            }
             Session["CellBoard"] = model.CellBoard;
             return View(model);
         }

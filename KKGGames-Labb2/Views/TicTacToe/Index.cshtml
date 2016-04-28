@@ -6,16 +6,17 @@
 
 <h2>Tic Tac Toe</h2>
 
-@for (int y = 0; y < Model.CellBoard.Length; y++)
+@using (Html.BeginForm("Index", "TicTacToe", FormMethod.Post))
 {
-    <div>
-        @for (int x = 0; x < Model.CellBoard[y].Length; x++)
+    <table>
+        @for (int y = 0; y < Model.CellBoard.Length; y++)
         {
-            using (Html.BeginForm("Index", "TicTacToe", FormMethod.Post, new { style = "display : inline-block;" }))
+        <tr>
+            @for (int x = 0; x < Model.CellBoard[y].Length; x++)
             {
-                <input type="hidden" name="chosenCell" value="@x,@y"/>
-                <input type="submit" value="@Model.CellBoard[x][y]" />
+                <td><button type="submit" name="chosenCell" value="@x,@y">@Model.CellBoard[x][y]</button></td>
             }
+        </tr>
         }
-    </div>
+    </table>
 }
