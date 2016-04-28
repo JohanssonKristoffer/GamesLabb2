@@ -15,14 +15,30 @@ namespace KKGGames_Labb2.Controllers
             return View(new Game21Model());
         }
 
+        public ActionResult Win()
+        {
+            return View();
+        }
+
+        public ActionResult Lose()
+        {
+            return View();
+        }
+
         // POST: Game21
         [HttpPost]
         public ActionResult Index(Game21Model model)
         {
-            ViewBag.Result = model.GetResult();
             ModelState.Remove("CurrentValue");
-            return View(model);
+            switch (model.GetGameStatus())
+            {
+                case GameState.Win:
+                    return View("Win");
+                case GameState.Lose:
+                    return View("Lose");
+                default:
+                    return View(model);
+            }
         }
-
     }
 }
