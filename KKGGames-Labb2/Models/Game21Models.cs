@@ -14,37 +14,65 @@ namespace KKGGames_Labb2.Models
     {
         public int CurrentValue { get; set; }
         public int ChoosenNumber { get; set; }
-        public int Counter { get; set; } = 10;
+        public int Counter { get; set; } = 0;
+        public string TurnText { get; set; }
 
-        public  void UserStarter()
+        public void UserStarter()
         {
             Random counter = new Random();
             int Counter = counter.Next(0, 2);
-
-            // fixa counter så att den plussas varje gång
         }
 
-        //public void TakeTurn()
-        //{
-        //    if (Counter % 2 == 0)
-        //    {
-        //        //players turn
-        //    }
-        //    else
-        //    {
-        //        CurrentValue++;
-        //    }
-        //}
+        public void ComputerAI()
+        {
+            Random random = new Random();
+            int randomNumber = random.Next(1,2);
+            CurrentValue += randomNumber;
+            Counter++;
+            if (CurrentValue > 14)
+            {
+                int nextOne = (CurrentValue + 1) % 3 == 0 ? 1 : 2;
+            }
+        }
+
+        public bool GetFirstTurn()
+        {
+         Random random = new Random();
+            int randomnumber = random.Next(0, 1);
+            if (randomnumber == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void TakeTurn()
+        {
+            if (Counter % 2 == 0)
+            {
+                TurnText = "Player turn";
+            }
+            else
+            {
+                TurnText = "Computer turn";
+                ComputerAI();
+                }
+        }
 
         public Game21Model()
         {
             Initiate();
+            TakeTurn();
         }
 
-        public GameState GetGameStatus()
+        public GameState PlayerTurn()
         {
-            CurrentValue += ChoosenNumber;
+            TakeTurn();
             Counter++;
+            CurrentValue += ChoosenNumber;
             if (CurrentValue == 21)
                 return GameState.Win;
             if (CurrentValue > 21)
