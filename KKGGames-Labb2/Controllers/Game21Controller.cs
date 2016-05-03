@@ -12,17 +12,10 @@ namespace KKGGames_Labb2.Controllers
         // GET: Game21
         public ActionResult Index()
         {
-            return View(new Game21Model());
-        }
-
-        public ActionResult Win()
-        {
-            return View();
-        }
-
-        public ActionResult Lose()
-        {
-            return View();
+            Game21Model model = new Game21Model();
+            if (model.IsComputerTurn())
+                model.ComputerAi();
+            return View(model);
         }
 
         // POST: Game21
@@ -30,14 +23,23 @@ namespace KKGGames_Labb2.Controllers
         public ActionResult Index(Game21Model model)
         {
             ModelState.Remove("CurrentValue");
-            switch (model.GetGameStatus())
+            ModelState.Remove("Counter");
+            switch (model.PlayerTurn())
             {
                 case GameState.Win:
                     return View("Win");
                 case GameState.Lose:
                     return View("Lose");
                 default:
-                    return View(model);
+                    switch (model.ComputerAi())
+                    {
+                        case GameState.Win:
+                            return View("Win");
+                        case GameState.Lose:
+                            return View("Lose");
+                        default:
+                            return View(model);
+                    }
             }
         }
     }
