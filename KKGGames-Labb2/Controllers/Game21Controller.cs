@@ -12,17 +12,10 @@ namespace KKGGames_Labb2.Controllers
         // GET: Game21
         public ActionResult Index()
         {
-            Game21Model gamemModel = new Game21Model();
-
-            if (gamemModel.GetFirstTurn() == true)
-            {
-                gamemModel.ComputerAI();
-            }
-            else
-            {
-                gamemModel.PlayerTurn();
-            }
-            return View(new Game21Model());
+            Game21Model model = new Game21Model();
+            if (model.IsComputerTurn())
+                model.ComputerAi();
+            return View(model);
         }
 
         // POST: Game21
@@ -38,7 +31,15 @@ namespace KKGGames_Labb2.Controllers
                 case GameState.Lose:
                     return View("Lose");
                 default:
-                    return View(model);
+                    switch (model.ComputerAi())
+                    {
+                        case GameState.Win:
+                            return View("Win");
+                        case GameState.Lose:
+                            return View("Lose");
+                        default:
+                            return View(model);
+                    }
             }
         }
     }

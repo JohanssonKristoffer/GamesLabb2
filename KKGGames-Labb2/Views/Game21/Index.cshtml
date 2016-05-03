@@ -17,9 +17,10 @@
     @Html.HiddenFor(m => m.CurrentValue);
     @Html.DisplayTextFor(m => m.CurrentValue);
     <br/>
-    @Html.DisplayTextFor(t => t.TurnText) 
-    @Html.HiddenFor(m => m.Counter);
-    @Html.DisplayTextFor(m => m.Counter);
+    @*@Html.DisplayTextFor(t => t.TurnText)*@ 
+    <label>Computers choice: </label>
+    @Html.HiddenFor(m => m.ComputersChoice);
+    @Html.DisplayTextFor(m => m.ComputersChoice);
     <br />
     <label for="numberOne">1</label>
     @Html.RadioButtonFor(m => m.ChoosenNumber, "1", new { id = "numberOne" })
