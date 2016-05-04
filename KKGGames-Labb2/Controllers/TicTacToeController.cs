@@ -12,7 +12,13 @@ namespace KKGGames_Labb2.Controllers
         // GET: TicTacToe
         public ActionResult Index()
         {
-            return View(new TicTacToeModel());
+            var model = new TicTacToeModel();
+            if(model.IsComputerTurn())
+            {
+                model.ComputerTurn();
+                Session["CellBoard"] = model.CellBoard;
+            }
+            return View(model);
         }
 
         // POST: TicTacToe
@@ -28,6 +34,8 @@ namespace KKGGames_Labb2.Controllers
                 if (model.IsGameComplete)
                 {
                     Session["CellBoard"] = null;
+                    if(model.IsTie)
+                        return View("Tie");
                     return View("Win");
                 }
 
@@ -35,6 +43,8 @@ namespace KKGGames_Labb2.Controllers
                 if (model.IsGameComplete)
                 {
                     Session["CellBoard"] = null;
+                    if (model.IsTie)
+                        return View("Tie");
                     return View("Lose");
                 }
             }
