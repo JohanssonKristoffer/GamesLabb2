@@ -12,16 +12,6 @@ namespace KKGGames_Labb2.Controllers
         // GET: Game21
         public ActionResult Index()
         {
-            Game21Model gamemModel = new Game21Model();
-
-            if (gamemModel.GetFirstTurn() == true)
-            {
-                gamemModel.ComputerAI();
-            }
-            else
-            {
-                gamemModel.PlayerTurn();
-            }
             return View(new Game21Model());
         }
 
@@ -31,7 +21,7 @@ namespace KKGGames_Labb2.Controllers
         {
             ModelState.Remove("CurrentValue");
             ModelState.Remove("Counter");
-            switch (model.PlayerTurn())
+            switch (model.GetGameStatus())
             {
                 case GameState.Win:
                     return View("Win");

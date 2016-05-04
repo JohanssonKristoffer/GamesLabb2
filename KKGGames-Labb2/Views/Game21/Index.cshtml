@@ -15,9 +15,11 @@
 @using (Html.BeginForm("Index", "Game21", FormMethod.Post))
 {
     @Html.HiddenFor(m => m.CurrentValue);
+    <span>Current number: </span>
     @Html.DisplayTextFor(m => m.CurrentValue);
     <br/>
-    @Html.DisplayTextFor(t => t.TurnText) 
+    <span>Current turn: </span>
+    @Html.DisplayTextFor(t => t.TurnText ) 
     @Html.HiddenFor(m => m.Counter);
     @Html.DisplayTextFor(m => m.Counter);
     <br />

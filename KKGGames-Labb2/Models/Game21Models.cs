@@ -28,36 +28,21 @@ namespace KKGGames_Labb2.Models
             Random random = new Random();
             int randomNumber = random.Next(1,2);
             CurrentValue += randomNumber;
-            Counter++;
             if (CurrentValue > 14)
             {
                 int nextOne = (CurrentValue + 1) % 3 == 0 ? 1 : 2;
             }
+            Counter++;
         }
-
-        public bool GetFirstTurn()
-        {
-         Random random = new Random();
-            int randomnumber = random.Next(0, 1);
-            if (randomnumber == 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         public void TakeTurn()
         {
             if (Counter % 2 == 0)
             {
-                TurnText = "Player turn";
+                TurnText = "Players turn";
             }
             else
             {
-                TurnText = "Computer turn";
+                TurnText = "Computers turn";
                 ComputerAI();
                 }
         }
@@ -68,16 +53,17 @@ namespace KKGGames_Labb2.Models
             TakeTurn();
         }
 
-        public GameState PlayerTurn()
+        public GameState GetGameStatus()
         {
-            TakeTurn();
             Counter++;
+            TakeTurn();
             CurrentValue += ChoosenNumber;
             if (CurrentValue == 21)
                 return GameState.Win;
             if (CurrentValue > 21)
                 return GameState.Lose;
             return GameState.Playing;
+
         }
 
         private void Initiate()
