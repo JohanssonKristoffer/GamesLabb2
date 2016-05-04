@@ -5,24 +5,32 @@ namespace KKGGames_Labb2.Models
 {
     public class TicTacToeModel
     {
-        const int XMAX = 3;
-        const int YMAX = 3;
-        const int WINSTREAK = 3;
-
         public Cell[][] CellBoard { get; set; }
         public bool IsGameComplete { get; private set; }
-        public bool IsTie { get; set; }
+        public bool IsTie { get; private set; }
+
+        private int Xmax { get; set; } = 3;
+        private int Ymax { get; set; } = 3;
+        private int Winstreak { get; set; } = 3;
+
         private int[][] PointBoard { get; set; }
         private List<Coordinate[]> PossiblePlacementList { get; set; }
         private Coordinate ChosenCell { get; set; }
 
         public TicTacToeModel()
         {
-            CellBoard = new Cell[XMAX][];
-            for (int i = 0; i < XMAX; i++)
-                CellBoard[i] = new Cell[YMAX];
-            IsGameComplete = false;
-            IsTie = false;
+            CellBoard = new Cell[Xmax][];
+            for (int i = 0; i < Xmax; i++)
+                CellBoard[i] = new Cell[Ymax];
+        }
+        public TicTacToeModel(int xmax, int ymax, int winstreak)
+        {
+            Xmax = xmax;
+            Ymax = ymax;
+            Winstreak = winstreak;
+            CellBoard = new Cell[Xmax][];
+            for (int i = 0; i < Xmax; i++)
+                CellBoard[i] = new Cell[Ymax];
         }
 
         public bool IsComputerTurn()
@@ -56,9 +64,9 @@ namespace KKGGames_Labb2.Models
 
         private bool CheckTie()
         {
-            for (int x = 0; x < XMAX; x++)
+            for (int x = 0; x < Xmax; x++)
             {
-                for (int y = 0; y < YMAX; y++)
+                for (int y = 0; y < Ymax; y++)
                 {
                     if (CellBoard[x][y] == Cell.Empty)
                         return false;
@@ -82,7 +90,7 @@ namespace KKGGames_Labb2.Models
         }
         private bool CheckDirection(Coordinate coordinate, int xd, int yd, Cell actor)
         {
-            int counter = WINSTREAK - 1;
+            int counter = Winstreak - 1;
             counter = CheckCell(coordinate, xd, yd, actor, counter);
             if (counter == 0)
                 return true;
@@ -94,8 +102,8 @@ namespace KKGGames_Labb2.Models
         private int CheckCell(Coordinate coordinate, int xd, int yd, Cell actor, int counter)
         {
             Coordinate currentCoordinate = new Coordinate { X = coordinate.X + xd, Y = coordinate.Y + yd };
-            bool isInBounds = currentCoordinate.X >= 0 && currentCoordinate.X < XMAX && currentCoordinate.Y >= 0 &&
-                              currentCoordinate.Y < YMAX;
+            bool isInBounds = currentCoordinate.X >= 0 && currentCoordinate.X < Xmax && currentCoordinate.Y >= 0 &&
+                              currentCoordinate.Y < Ymax;
             if (isInBounds && CellBoard[currentCoordinate.X][currentCoordinate.Y] == actor)
             {
                 counter--;
@@ -118,7 +126,7 @@ namespace KKGGames_Labb2.Models
         {
             //TBI Generic version
             PossiblePlacementList = new List<Coordinate[]>();
-            for (int x = 0; x < XMAX; x++)
+            for (int x = 0; x < Xmax; x++)
             {
                 Coordinate[] horizontalCombo = {
                     new Coordinate {X = x, Y = 0},
@@ -127,7 +135,7 @@ namespace KKGGames_Labb2.Models
                 };
                 PossiblePlacementList.Add(horizontalCombo);
             }
-            for (int y = 0; y < XMAX; y++)
+            for (int y = 0; y < Xmax; y++)
             {
                 Coordinate[] verticalCombo = {
                     new Coordinate {X = 0, Y = y},
@@ -187,9 +195,9 @@ namespace KKGGames_Labb2.Models
 
         private void InitiatePointBoard()
         {
-            PointBoard = new int[XMAX][];
-            for (int i = 0; i < XMAX; i++)
-                PointBoard[i] = new int[YMAX];
+            PointBoard = new int[Xmax][];
+            for (int i = 0; i < Xmax; i++)
+                PointBoard[i] = new int[Ymax];
         }
         private void GeneratePointBoard()
         {
@@ -204,9 +212,9 @@ namespace KKGGames_Labb2.Models
                 }
             }
             if(count == 0)
-                for (int x = 0; x < XMAX; x++)
+                for (int x = 0; x < Xmax; x++)
                 {
-                    for (int y = 0; y < YMAX; y++)
+                    for (int y = 0; y < Ymax; y++)
                     {
                         if (CellBoard[x][y] == Cell.Empty)
                         {
@@ -220,9 +228,9 @@ namespace KKGGames_Labb2.Models
         {
             List<Coordinate> HighestPoints = new List<Coordinate>();
             int maxPoint = 0;
-            for (int x = 0; x < XMAX; x++)
+            for (int x = 0; x < Xmax; x++)
             {
-                for (int y = 0; y < YMAX; y++)
+                for (int y = 0; y < Ymax; y++)
                 {
                     if (PointBoard[x][y] > maxPoint)
                     {

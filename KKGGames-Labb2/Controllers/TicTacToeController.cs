@@ -13,7 +13,7 @@ namespace KKGGames_Labb2.Controllers
         public ActionResult Index()
         {
             Session["CellBoard"] = null;
-            var model = new TicTacToeModel();
+            var model = new TicTacToeModel(4,4,4);
             if(model.IsComputerTurn())
             {
                 model.ComputerTurn();
@@ -24,8 +24,9 @@ namespace KKGGames_Labb2.Controllers
 
         // POST: TicTacToe
         [HttpPost]
-        public ActionResult Index(TicTacToeModel model, string chosenCell)
+        public ActionResult Index(string chosenCell)
         {
+            var model = new TicTacToeModel(4,4,4);
             if (Session["CellBoard"] != null)
                 model.CellBoard = (Cell[][])Session["CellBoard"];
 
