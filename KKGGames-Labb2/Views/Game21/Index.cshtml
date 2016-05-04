@@ -15,9 +15,9 @@
 @using (Html.BeginForm("Index", "Game21", FormMethod.Post))
 {
     @Html.HiddenFor(m => m.CurrentValue);
-    @Html.DisplayTextFor(m => m.CurrentValue);
-    <br/>
-    @*@Html.DisplayTextFor(t => t.TurnText)*@ 
+    <span>Current number: </span>@Html.DisplayTextFor(m => m.CurrentValue);
+    <br />
+    @*@Html.DisplayTextFor(t => t.TurnText)*@
     <label>Computers choice: </label>
     @Html.HiddenFor(m => m.ComputersChoice);
     @Html.DisplayTextFor(m => m.ComputersChoice);
@@ -25,7 +25,6 @@
     <label for="numberOne">1</label>
     @Html.RadioButtonFor(m => m.ChoosenNumber, "1", new { id = "numberOne" })
     <label for="numberTwo">2</label>
-        @Html.RadioButtonFor(m => m.ChoosenNumber, "2", new { id = "numberTwo" })
-        <input type="submit" value="Send" />
+    @Html.RadioButtonFor(m => m.ChoosenNumber, "2", new { id = "numberTwo" })
+    <input type="submit" value="Send" />
 }
-
