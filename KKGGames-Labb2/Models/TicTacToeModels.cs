@@ -9,10 +9,12 @@ namespace KKGGames_Labb2.Models
 {
     public class TicTacToeModel
     {
-        const int XMAX = 3, YMAX = XMAX;
+        const int XMAX = 3;
+        const int YMAX = 3;
         const int WINSTREAK = 3;
 
         public Cell[][] CellBoard { get; set; }
+        public int[][] PointBoard { get; set; }
         public Coordinate ChosenCell { get; set; }
         public bool IsGameComplete { get; set; }
 
@@ -32,7 +34,6 @@ namespace KKGGames_Labb2.Models
                 Y = int.Parse(chosenCell.Split(',')[1])
             };
         }
-
         public bool TryPlaceChosenCell()
         {
             if (CellBoard[ChosenCell.X][ChosenCell.Y] == Cell.Empty)
@@ -57,24 +58,23 @@ namespace KKGGames_Labb2.Models
                 return true;
             return false;
         }
-
-        public bool CheckDirection(Coordinate coordinate, int xd, int yd, Cell actor)
+        private bool CheckDirection(Coordinate coordinate, int xd, int yd, Cell actor)
         {
             int counter = WINSTREAK - 1;
             counter = CheckCell(coordinate, xd, yd, actor, counter);
             if (counter == 0)
                 return true;
-            counter = CheckCell(coordinate, xd*(-1), yd*(-1), actor, counter);
+            counter = CheckCell(coordinate, xd * (-1), yd * (-1), actor, counter);
             if (counter == 0)
                 return true;
             return false;
         }
-
-        public int CheckCell(Coordinate coordinate, int xd, int yd, Cell actor, int counter)
+        private int CheckCell(Coordinate coordinate, int xd, int yd, Cell actor, int counter)
         {
             Coordinate currentCoordinate = new Coordinate { X = coordinate.X + xd, Y = coordinate.Y + yd };
-            bool InBoundsCondition = currentCoordinate.X >= 0 && currentCoordinate.X < XMAX && currentCoordinate.Y >= 0 && currentCoordinate.Y < YMAX;
-            if (InBoundsCondition && CellBoard[currentCoordinate.X][currentCoordinate.Y] == actor)
+            bool isInBounds = currentCoordinate.X >= 0 && currentCoordinate.X < XMAX && currentCoordinate.Y >= 0 &&
+                              currentCoordinate.Y < YMAX;
+            if (isInBounds && CellBoard[currentCoordinate.X][currentCoordinate.Y] == actor)
             {
                 counter--;
                 if (counter != 0)
@@ -86,7 +86,71 @@ namespace KKGGames_Labb2.Models
 
         public void ComputerTurn()
         {
-            //TBI
+            InitiatePointBoard();
+            GeneratePointBoard();
+            PlaceRandomHighestPointCell();
+        }
+
+        private void PlaceRandomHighestPointCell()
+        {
+            List<Coordinate> HighestPoints = new List<Coordinate>();
+            int maxPoint = 0;
+            for (int x = 0; x < XMAX; x++)
+            {
+                for (int y = 0; y < YMAX; y++)
+                {
+                    if (PointBoard[x][y] > maxPoint)
+                    {
+                        maxPoint = PointBoard[x][y];
+                        HighestPoints.Clear();
+                    }
+                    if (PointBoard[x][y] >= maxPoint)
+                        HighestPoints.Add(new Coordinate { X = x, Y = y });
+                }
+            }
+            Random random = new Random();
+            int randomHighest = random.Next(0, HighestPoints.Count);
+            Coordinate ComputerChosenCell = HighestPoints[randomHighest];
+            CellBoard[ComputerChosenCell.X][ComputerChosenCell.Y] = Cell.Computer;
+            if (IsWin(ComputerChosenCell, Cell.Computer))
+                IsGameComplete = true;
+        }
+        private void InitiatePointBoard()
+        {
+            PointBoard = new int[XMAX][];
+            for (int i = 0; i < XMAX; i++)
+                PointBoard[i] = new int[YMAX];
+        }
+        private void GeneratePointBoard()
+        {
+            for (int x = 0; x < XMAX; x++)
+            {
+                for (int y = 0; y < YMAX; y++)
+                {
+                    Coordinate coordinate = new Coordinate { X = x, Y = y };
+                    if (CellBoard[coordinate.X][coordinate.Y] != Cell.Empty)
+                    {
+                        PointBoard[coordinate.X][coordinate.Y] = 0;
+                        AssignPoints(coordinate, -1, 0);
+                        AssignPoints(coordinate, 1, 0);
+                        AssignPoints(coordinate, 0, -1);
+                        AssignPoints(coordinate, 0, 1);
+                        AssignPoints(coordinate, -1, -1);
+                        AssignPoints(coordinate, 1, 1);
+                        AssignPoints(coordinate, -1, 1);
+                        AssignPoints(coordinate, 1, -1);
+                    }
+                }
+            }
+        }
+
+        private void AssignPoints(Coordinate coordinate, int xd, int yd)
+        {
+            Coordinate currentCoordinate = new Coordinate { X = coordinate.X + xd, Y = coordinate.Y + yd };
+            bool isInBounds = currentCoordinate.X >= 0 && currentCoordinate.X < XMAX && currentCoordinate.Y >= 0 &&
+                             currentCoordinate.Y < YMAX;
+            if (isInBounds && CellBoard[currentCoordinate.X][currentCoordinate.Y] == Cell.Empty)
+                PointBoard[currentCoordinate.X][currentCoordinate.Y] = 1;
         }
     }
 

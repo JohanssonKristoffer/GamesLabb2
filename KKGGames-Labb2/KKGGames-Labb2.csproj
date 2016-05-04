@@ -107,10 +107,8 @@
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Game21\Index.cshtml" />
     <Content Include="Views\TicTacToe\Index.cshtml" />
-    <Content Include="Views\Game21\Win.cshtml" />
-    <Content Include="Views\Game21\Lose.cshtml" />
+    <Content Include="Views\Game21\Game21.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
