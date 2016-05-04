@@ -11,7 +11,7 @@ namespace KKGGames_Labb2.Models
 
         public int Xmax { get; set; } = 3;
         public int Ymax { get; set; } = 3;
-        private int Winstreak { get; set; } = 3;
+        public int Winstreak { get; set; } = 3;
 
         private int[][] PointBoard { get; set; }
         private List<Coordinate[]> PossiblePlacementList { get; set; }

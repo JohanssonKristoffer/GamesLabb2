@@ -2,26 +2,27 @@
     ViewBag.Title = "Tic Tac Toe";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<article>
+    <h2>Tic Tac Toe</h2>
 
-<h2>Tic Tac Toe</h2>
+    @using (Html.BeginForm("Game", "TicTacToe", FormMethod.Get))
+    {
+        <table>
+            <tr>
+                <td><label for="xmaxRange">Columns: </label></td>
+                <td><input type="number" min="3" max="12" name="xmax" id="xmaxRange" value="3" required/></td>
+            </tr>
+            <tr>
+                <td><label for="ymaxRange">Rows: </label></td>
+                <td><input type="number" min="3" max="12" name="ymax" id="ymaxRange" value="3" required/></td>
+            </tr>
+            <tr>
+                <td><label for="winstreakRange">Winstreak: </label></td>
+                <td><input type="number" min="3" max="12" name="winstreak" id="winstreakRange" value="3" required/></td>
+            </tr>
+        </table>
+        <input type="submit" value="Start"/>
+    }
 
-@using (Html.BeginForm("Game", "TicTacToe", FormMethod.Get))
-{
-    <table>
-        <tr>
-            <td><label for="xmaxRange">Columns: </label></td>
-            <td><input type="number" min="3" max="12" name="xmax" id="xmaxRange" value="3" required/></td>
-        </tr>
-        <tr>
-            <td><label for="ymaxRange">Rows: </label></td>
-            <td><input type="number" min="3" max="12" name="ymax" id="ymaxRange" value="3" required/></td>
-        </tr>
-        <tr>
-            <td><label for="winstreakRange">Winstreak: </label></td>
-            <td><input type="number" min="3" max="12" name="winstreak" id="winstreakRange" value="3" required/></td>
-        </tr>
-    </table>
-    <input type="submit" value="Start" />
-}
-
-<p>@Html.ActionLink("Go back to menu.", "Index", "Home")</p>
+    <p>@Html.ActionLink("Go back to menu.", "Index", "Home")</p>
+</article>
