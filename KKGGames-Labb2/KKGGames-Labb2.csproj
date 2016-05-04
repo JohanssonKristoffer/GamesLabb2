@@ -95,6 +95,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Game21Controller.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TicTacToeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -109,6 +110,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\TicTacToe\Index.cshtml" />
     <Content Include="Views\Game21\Game21.cshtml" />
+    <Content Include="Views\Game21\Index.cshtml" />
+    <Content Include="Views\Game21\Win.cshtml" />
+    <Content Include="Views\Game21\Lose.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

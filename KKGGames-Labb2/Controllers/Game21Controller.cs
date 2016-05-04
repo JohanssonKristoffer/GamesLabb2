@@ -17,12 +17,7 @@ namespace KKGGames_Labb2.Controllers
                 model.ComputerAi();
             return View(model);
         }
-
-        public ActionResult Game21()
-        {
-            return View();
-        }
-
+        
         // POST: Game21
         [HttpPost]
         public ActionResult Index(Game21Model model)
