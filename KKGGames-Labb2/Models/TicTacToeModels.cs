@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Xml.Linq;
 
@@ -174,17 +175,15 @@ namespace KKGGames_Labb2.Models
                     bool isDefensive = weightPlayer > weightComputer;
                     int weight = weightComputer + weightPlayer;
 
-                    if (weight >= currentWeight)
+                    if (weight > currentWeight || (weight == currentWeight && !isDefensive && currentIsDefensive))
                     {
-                        if (weight > currentWeight)
-                            tempList.Clear();
-                        else if (isDefensive == false && isDefensive != currentIsDefensive)
-                            tempList.Clear();
-
+                        tempList.Clear();
                         currentWeight = weight;
                         currentIsDefensive = isDefensive;
                         tempList.Add(winCombo);
                     }
+                    else if (weight == currentWeight && isDefensive == currentIsDefensive)
+                        tempList.Add(winCombo);
                 }
                 PossiblePlacementList = tempList;
             }
@@ -199,14 +198,28 @@ namespace KKGGames_Labb2.Models
         }
         private void GeneratePointBoard()
         {
+            int count = 0;
             foreach (var winCombo in PossiblePlacementList)
             {
+                count++;
                 foreach (var coordinate in winCombo)
                 {
                     if (CellBoard[coordinate.X][coordinate.Y] == Cell.Empty)
                         PointBoard[coordinate.X][coordinate.Y] += 1;
                 }
             }
+            if(count == 0)
+                for (int x = 0; x < XMAX; x++)
+                {
+                    for (int y = 0; y < YMAX; y++)
+                    {
+                        if (CellBoard[x][y] == Cell.Empty)
+                        {
+                            PointBoard[x][y] += 1;
+                            return;
+                        }
+                    }
+                }
         }
         private void PlaceRandomHighestPointCell()
         {
