@@ -9,11 +9,23 @@ namespace KKGGames_Labb2.Controllers
 {
     public class TicTacToeController : Controller
     {
-        // GET: TicTacToe
+        // GET: Index
         public ActionResult Index()
         {
+            return View();
+        }
+
+        // GET: Game
+        public ActionResult Game(int xmax, int ymax, int winstreak)
+        {
+            if (winstreak > xmax || winstreak > ymax)
+                return View("Index");
             Session["CellBoard"] = null;
-            var model = new TicTacToeModel(4,4,4);
+            Session["Xmax"] = xmax;
+            Session["Ymax"] = ymax;
+            Session["Winstreak"] = winstreak;
+            var model = new TicTacToeModel(xmax, ymax, winstreak);
+
             if(model.IsComputerTurn())
             {
                 model.ComputerTurn();
@@ -22,11 +34,19 @@ namespace KKGGames_Labb2.Controllers
             return View(model);
         }
 
-        // POST: TicTacToe
+        // POST: Game
         [HttpPost]
-        public ActionResult Index(string chosenCell)
+        public ActionResult Game(string chosenCell)
         {
-            var model = new TicTacToeModel(4,4,4);
+            int xmax = 3, ymax = 3, winstreak = 3;
+            if (Session["Xmax"] != null)
+                xmax = (int)Session["Xmax"];
+            if (Session["Ymax"] != null)
+                ymax = (int)Session["Ymax"];
+            if (Session["Winstreak"] != null)
+                winstreak = (int)Session["Winstreak"];
+            var model = new TicTacToeModel(xmax, ymax, winstreak);
+            
             if (Session["CellBoard"] != null)
                 model.CellBoard = (Cell[][])Session["CellBoard"];
 

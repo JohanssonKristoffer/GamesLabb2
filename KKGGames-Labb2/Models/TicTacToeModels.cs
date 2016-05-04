@@ -9,8 +9,8 @@ namespace KKGGames_Labb2.Models
         public bool IsGameComplete { get; private set; }
         public bool IsTie { get; private set; }
 
-        private int Xmax { get; set; } = 3;
-        private int Ymax { get; set; } = 3;
+        public int Xmax { get; set; } = 3;
+        public int Ymax { get; set; } = 3;
         private int Winstreak { get; set; } = 3;
 
         private int[][] PointBoard { get; set; }
@@ -124,39 +124,65 @@ namespace KKGGames_Labb2.Models
         }
         private void CreatePossiblePlacementList()
         {
-            //TBI Generic version
             PossiblePlacementList = new List<Coordinate[]>();
+            CreateHorizonalPlacements();
+            CreateVerticalPlacements();
+            CreateDiagonal1Placements();
+            CreateDiagonal2Placements();
+        }
+        private void CreateHorizonalPlacements()
+        {
+            for (int x = 0; x < Xmax - Winstreak + 1; x++)
+            {
+                for (int y = 0; y < Ymax; y++)
+                {
+                    Coordinate[] horizontalCombo = new Coordinate[Winstreak];
+                    for (int xd = 0; xd < Winstreak; xd++)
+                        horizontalCombo[xd] = new Coordinate { X = x + xd, Y = y };
+                    PossiblePlacementList.Add(horizontalCombo);
+                }
+            }
+        }
+        private void CreateVerticalPlacements()
+        {
             for (int x = 0; x < Xmax; x++)
             {
-                Coordinate[] horizontalCombo = {
-                    new Coordinate {X = x, Y = 0},
-                    new Coordinate {X = x, Y = 1},
-                    new Coordinate {X = x, Y = 2}
-                };
-                PossiblePlacementList.Add(horizontalCombo);
+                for (int y = 0; y < Ymax - Winstreak + 1; y++)
+                {
+                    Coordinate[] verticalCombo = new Coordinate[Winstreak];
+                    for (int yd = 0; yd < Winstreak; yd++)
+                        verticalCombo[yd] = new Coordinate { X = x, Y = y + yd };
+                    PossiblePlacementList.Add(verticalCombo);
+                }
             }
-            for (int y = 0; y < Xmax; y++)
-            {
-                Coordinate[] verticalCombo = {
-                    new Coordinate {X = 0, Y = y},
-                    new Coordinate {X = 1, Y = y},
-                    new Coordinate {X = 2, Y = y}
-                };
-                PossiblePlacementList.Add(verticalCombo);
-            }
-            Coordinate[] diagonal1Combo = {
-                new Coordinate {X = 0, Y = 0},
-                new Coordinate {X = 1, Y = 1},
-                new Coordinate {X = 2, Y = 2}
-            };
-            PossiblePlacementList.Add(diagonal1Combo);
-            Coordinate[] diagonal2Combo = {
-                new Coordinate {X = 0, Y = 2},
-                new Coordinate {X = 1, Y = 1},
-                new Coordinate {X = 2, Y = 0}
-            };
-            PossiblePlacementList.Add(diagonal2Combo);
         }
+        private void CreateDiagonal1Placements()
+        {
+            for (int x = 0; x < Xmax - Winstreak + 1; x++)
+            {
+                for (int y = 0; y < Ymax - Winstreak + 1; y++)
+                {
+                    Coordinate[] diagonal1Combo = new Coordinate[Winstreak];
+                    for (int d = 0; d < Winstreak; d++)
+                        diagonal1Combo[d] = new Coordinate { X = x + d, Y = y + d };
+                    PossiblePlacementList.Add(diagonal1Combo);
+                }
+            }
+        }
+        private void CreateDiagonal2Placements()
+        {
+            for (int x = Winstreak - 1; x < Xmax; x++)
+            {
+                for (int y = 0; y < Ymax - Winstreak + 1; y++)
+                {
+                    Coordinate[] diagonal2Combo = new Coordinate[Winstreak];
+                    for (int d = 0; d < Winstreak; d++)
+                        diagonal2Combo[d] = new Coordinate { X = x - d, Y = y + d };
+                    PossiblePlacementList.Add(diagonal2Combo);
+                }
+            }
+        }
+
         private void FilterPossiblePlacementList()
         {
             List<Coordinate[]> tempList = new List<Coordinate[]>();
@@ -211,7 +237,7 @@ namespace KKGGames_Labb2.Models
                         PointBoard[coordinate.X][coordinate.Y] += 1;
                 }
             }
-            if(count == 0)
+            if (count == 0)
                 for (int x = 0; x < Xmax; x++)
                 {
                     for (int y = 0; y < Ymax; y++)

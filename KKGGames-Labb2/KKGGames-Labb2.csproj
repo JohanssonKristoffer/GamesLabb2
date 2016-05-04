@@ -116,6 +116,7 @@
     <Content Include="Views\TicTacToe\Win.cshtml" />
     <Content Include="Views\TicTacToe\Lose.cshtml" />
     <Content Include="Views\TicTacToe\Tie.cshtml" />
+    <Content Include="Views\TicTacToe\Game.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
