@@ -15,16 +15,18 @@
 @using (Html.BeginForm("Index", "Game21", FormMethod.Post))
 {
     @Html.HiddenFor(m => m.CurrentValue);
-    <span>Current number: </span>@Html.DisplayTextFor(m => m.CurrentValue);
-    <br />
+    <h3>Current number: @Html.DisplayTextFor(m => m.CurrentValue)</h3>
     @*@Html.DisplayTextFor(t => t.TurnText)*@
-    <label>Computers choice: </label>
+    if (Model.ComputersChoice != null)
+    {
+        <h4>Computer's choice: @Html.DisplayTextFor(m => m.ComputersChoice)</h4>
+    }
     @Html.HiddenFor(m => m.ComputersChoice);
-    @Html.DisplayTextFor(m => m.ComputersChoice);
-    <br />
     <label for="numberOne">1</label>
-    @Html.RadioButtonFor(m => m.ChoosenNumber, "1", new { id = "numberOne" })
+    @Html.RadioButtonFor(m => m.ChoosenNumber, "1", new { id = "numberOne", required = true})
     <label for="numberTwo">2</label>
-    @Html.RadioButtonFor(m => m.ChoosenNumber, "2", new { id = "numberTwo" })
+    @Html.RadioButtonFor(m => m.ChoosenNumber, "2", new { id = "numberTwo", required = true })
     <input type="submit" value="Send" />
 }
+
+<p>@Html.ActionLink("Go back to menu.", "Index", "Home")</p>

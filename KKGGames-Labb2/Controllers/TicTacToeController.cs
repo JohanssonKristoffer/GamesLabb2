@@ -12,6 +12,7 @@ namespace KKGGames_Labb2.Controllers
         // GET: TicTacToe
         public ActionResult Index()
         {
+            Session["CellBoard"] = null;
             var model = new TicTacToeModel();
             if(model.IsComputerTurn())
             {
