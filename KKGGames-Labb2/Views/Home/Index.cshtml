@@ -5,11 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
 <h2>Games index</h2>
 
-@Html.ActionLink("Game21", "Index", "Game21")
+@Html.ActionLink("Game21", "Index", "Game21", null, new { @class = "indexlink"})
 <br/>
-@Html.ActionLink("TicTacToe", "Index", "TicTacToe")
-
+@Html.ActionLink("TicTacToe", "Index", "TicTacToe", null, new { @class = "indexlink" })
