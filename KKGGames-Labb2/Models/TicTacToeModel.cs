@@ -8,22 +8,12 @@ namespace KKGGames_Labb2.Models
         public Cell[][] CellBoard { get; set; }
         public bool IsGameComplete { get; private set; }
         public bool IsTie { get; private set; }
-        public int Xmax { get; set; } = 3;
-        public int Ymax { get; set; } = 3;
-        public int Winstreak { get; set; } = 3;
+        public int Xmax { get; private set; }
+        public int Ymax { get; private set; }
+        public int Winstreak { get; private set; }
         private int[][] PointBoard { get; set; }
         private List<Coordinate[]> PossiblePlacementList { get; set; }
         private Coordinate ChosenCell { get; set; }
-
-
-        //Generates CellBoard
-        //public TicTacToeModel()
-        //{
-        //    CellBoard = new Cell[Xmax][];
-        //    for (int i = 0; i < Xmax; i++)
-        //        CellBoard[i] = new Cell[Ymax];
-        //}
-
 
         //Generates the board and winstreak of TicTacToe class
         public TicTacToeModel(int xmax, int ymax, int winstreak)
@@ -101,8 +91,6 @@ namespace KKGGames_Labb2.Models
                 return true;
             return false;
         }
-
-
         private bool CheckDirection(Coordinate coordinate, int xd, int yd, Cell actor)
         {
             int counter = Winstreak - 1;
@@ -152,8 +140,6 @@ namespace KKGGames_Labb2.Models
             CreateDiagonal1Placements();
             CreateDiagonal2Placements();
         }
-
-
         private void CreateHorizonalPlacements()
         {
             for (int x = 0; x < Xmax - Winstreak + 1; x++)
@@ -252,7 +238,6 @@ namespace KKGGames_Labb2.Models
             for (int i = 0; i < Xmax; i++)
                 PointBoard[i] = new int[Ymax];
         }
-
         //Generates all values for the pointboard
         private void GeneratePointBoard()
         {

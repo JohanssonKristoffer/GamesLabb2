@@ -103,8 +103,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Coordinate.cs" />
-    <Compile Include="Models\Game21Models.cs" />
-    <Compile Include="Models\TicTacToeModels.cs" />
+    <Compile Include="Models\Game21Model.cs" />
+    <Compile Include="Models\TicTacToeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
