@@ -8,21 +8,24 @@ namespace KKGGames_Labb2.Models
         public Cell[][] CellBoard { get; set; }
         public bool IsGameComplete { get; private set; }
         public bool IsTie { get; private set; }
-
         public int Xmax { get; set; } = 3;
         public int Ymax { get; set; } = 3;
         public int Winstreak { get; set; } = 3;
-
         private int[][] PointBoard { get; set; }
         private List<Coordinate[]> PossiblePlacementList { get; set; }
         private Coordinate ChosenCell { get; set; }
 
-        public TicTacToeModel()
-        {
-            CellBoard = new Cell[Xmax][];
-            for (int i = 0; i < Xmax; i++)
-                CellBoard[i] = new Cell[Ymax];
-        }
+
+        //Generates CellBoard
+        //public TicTacToeModel()
+        //{
+        //    CellBoard = new Cell[Xmax][];
+        //    for (int i = 0; i < Xmax; i++)
+        //        CellBoard[i] = new Cell[Ymax];
+        //}
+
+
+        //Generates the board and winstreak of TicTacToe class
         public TicTacToeModel(int xmax, int ymax, int winstreak)
         {
             Xmax = xmax;
@@ -33,6 +36,7 @@ namespace KKGGames_Labb2.Models
                 CellBoard[i] = new Cell[Ymax];
         }
 
+        //Randomizes who begins
         public bool IsComputerTurn()
         {
             Random random = new Random();
@@ -42,6 +46,7 @@ namespace KKGGames_Labb2.Models
             return false;
         }
 
+        //Converts the string chosenCell to a Coordinate
         public void ParseChosenCell(string chosenCell)
         {
             ChosenCell = new Coordinate
@@ -50,6 +55,8 @@ namespace KKGGames_Labb2.Models
                 Y = int.Parse(chosenCell.Split(',')[1])
             };
         }
+
+        //1.Checks if it's empty 2.Places player cell 3.Checks if win or tie
         public bool TryPlaceChosenCell()
         {
             if (CellBoard[ChosenCell.X][ChosenCell.Y] == Cell.Empty)
@@ -62,6 +69,7 @@ namespace KKGGames_Labb2.Models
             return false;
         }
 
+        //Loops all cells, if none are empty it stops the game, and specifies a tie
         private bool CheckTie()
         {
             for (int x = 0; x < Xmax; x++)
@@ -76,6 +84,11 @@ namespace KKGGames_Labb2.Models
             return true;
         }
 
+        //Calls Checkdirection for: 
+        //Left -> Right
+        //Top -> Bottom
+        //Topright -> BottomLeft
+        //Topleft -> Bottomright
         private bool IsWin(Coordinate coordinate, Cell actor)
         {
             if (CheckDirection(coordinate, -1, 0, actor))
@@ -88,6 +101,8 @@ namespace KKGGames_Labb2.Models
                 return true;
             return false;
         }
+
+
         private bool CheckDirection(Coordinate coordinate, int xd, int yd, Cell actor)
         {
             int counter = Winstreak - 1;
@@ -114,6 +129,11 @@ namespace KKGGames_Labb2.Models
             return counter;
         }
 
+        //Checks all possible placements
+        //Calculates which one is the best
+        //Creates a pointboard
+        //Places pointvalue on the pointboard
+        //If two or more are of equal value randomly select one
         public void ComputerTurn()
         {
             CreatePossiblePlacementList();
@@ -122,6 +142,8 @@ namespace KKGGames_Labb2.Models
             GeneratePointBoard();
             PlaceRandomHighestPointCell();
         }
+
+        //Calls all placement functions and puts them in the possible placementslist
         private void CreatePossiblePlacementList()
         {
             PossiblePlacementList = new List<Coordinate[]>();
@@ -130,6 +152,8 @@ namespace KKGGames_Labb2.Models
             CreateDiagonal1Placements();
             CreateDiagonal2Placements();
         }
+
+
         private void CreateHorizonalPlacements()
         {
             for (int x = 0; x < Xmax - Winstreak + 1; x++)
@@ -183,6 +207,8 @@ namespace KKGGames_Labb2.Models
             }
         }
 
+        //Places weight on possible placements
+        //offensive placements are prioritized over defensive
         private void FilterPossiblePlacementList()
         {
             List<Coordinate[]> tempList = new List<Coordinate[]>();
@@ -219,12 +245,15 @@ namespace KKGGames_Labb2.Models
 
         }
 
+        //Creates a board used for placing weight values
         private void InitiatePointBoard()
         {
             PointBoard = new int[Xmax][];
             for (int i = 0; i < Xmax; i++)
                 PointBoard[i] = new int[Ymax];
         }
+
+        //Generates all values for the pointboard
         private void GeneratePointBoard()
         {
             int count = 0;
@@ -250,6 +279,8 @@ namespace KKGGames_Labb2.Models
                     }
                 }
         }
+
+        //If two or more placements are equal one is randomly selected
         private void PlaceRandomHighestPointCell()
         {
             List<Coordinate> HighestPoints = new List<Coordinate>();
@@ -269,17 +300,11 @@ namespace KKGGames_Labb2.Models
             }
             Random random = new Random();
             int randomHighest = random.Next(0, HighestPoints.Count);
-            Coordinate ComputerChosenCell = HighestPoints[randomHighest];
-            CellBoard[ComputerChosenCell.X][ComputerChosenCell.Y] = Cell.Computer;
-            if (IsWin(ComputerChosenCell, Cell.Computer) || CheckTie())
+            Coordinate computerChosenCell = HighestPoints[randomHighest];
+            CellBoard[computerChosenCell.X][computerChosenCell.Y] = Cell.Computer;
+            if (IsWin(computerChosenCell, Cell.Computer) || CheckTie())
                 IsGameComplete = true;
         }
-    }
-
-    public class Coordinate
-    {
-        public int X { get; set; }
-        public int Y { get; set; }
     }
 
     public enum Cell
